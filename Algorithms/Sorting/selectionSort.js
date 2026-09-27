@@ -1,7 +1,10 @@
 function selectionSort(arr){
-
+   
     const length = arr.length;
-    
+    if(arr.length <= 1){
+        return arr;
+    }
+
     for(let i = 0; i < length - 1; i++){
 
         let minIndex = i;

@@ -1,7 +1,9 @@
 function insertionSort(arr){
-
-    const length = arr.length;
     
+    const length = arr.length;
+    if(arr.length <= 1){
+        return arr;
+    }
     for(let i = 1; i < length; i++){
 
         let key = arr[i];
