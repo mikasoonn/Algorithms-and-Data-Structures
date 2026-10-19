@@ -238,16 +238,23 @@ insert(value) {
         return;
     } 
     let cur = this.#root;
+    let parent = null;
     while(cur){
         if(value > cur.data) {
+            parent = cur;
             cur = cur.right;
         }else if(value < cur.data){
+            parent = cur;
             cur = cur.left;
         }else{
             return;
         }
     }
-    cur = new TreeNode(value);
+    if(value < parent.data){
+        parent.left = new TreeNode(value);
+    }else{
+        parent.right = new TreeNode(value);
+    }
 
 }
 
@@ -281,16 +288,20 @@ console.log(bst.preOrderRecursive());
 
 console.log(bst.postOrderRecursive());
 // [5, 12, 10, 17, 25, 20, 15]
+bst.insert(45);
+console.log("added");
+console.log(bst.postOrderRecursive());
 
-console.log(bst.preOrderRecursive());
-console.log(bst.containsRecursive(21));
-console.log(bst.contains(20));
-bst.removeRecursive(25);
-console.log(bst.contains(25));
-console.log(bst.levelOrderIterative());
-console.log(bst.levelOrderRecursive());
-console.log(bst.preorderIterative());
-console.log(bst.inOrderIterative());
-console.log(bst.postOrderIterative());
-console.log(bst.levelOrderRecursive());
+
+// console.log(bst.preOrderRecursive());
+// console.log(bst.containsRecursive(21));
+// console.log(bst.contains(20));
+// bst.removeRecursive(25);
+// console.log(bst.contains(25));
+// console.log(bst.levelOrderIterative());
+// console.log(bst.levelOrderRecursive());
+// console.log(bst.preorderIterative());
+// console.log(bst.inOrderIterative());
+// console.log(bst.postOrderIterative());
+// console.log(bst.levelOrderRecursive());
 
