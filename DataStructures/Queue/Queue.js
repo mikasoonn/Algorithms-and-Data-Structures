@@ -25,8 +25,10 @@ class Queue {
         if(this.#size === 0){
             throw new Error("No elements to dequeue");
         }
+        const elem = this.data[this.#front];
         this.#front = (this.#front+1)%this.#capacity;
         this.#size--;
+        return elem;
     }
 
     get size() {
@@ -88,87 +90,88 @@ class Queue {
         }
     }
 }
+module.exports = { Queue };
 
-const queue = new Queue(3);
+// const queue = new Queue(3);
 
-// Test 1: isEmpty()
-console.log(queue.isEmpty()); // true
+// // Test 1: isEmpty()
+// console.log(queue.isEmpty()); // true
 
-// Test 2: enqueue()
-queue.enqueue(10);
-queue.enqueue(20);
+// // Test 2: enqueue()
+// queue.enqueue(10);
+// queue.enqueue(20);
 
-console.log(queue.size); // 2
-console.log(queue.isEmpty()); // false
+// console.log(queue.size); // 2
+// console.log(queue.isEmpty()); // false
 
-// Test 3: get_front()
-console.log(queue.get_front()); // 10
+// // Test 3: get_front()
+// console.log(queue.get_front()); // 10
 
-// Test 4: get_back()
-console.log(queue.get_back()); // 20
+// // Test 4: get_back()
+// console.log(queue.get_back()); // 20
 
-// Test 5: dequeue()
-queue.dequeue();
+// // Test 5: dequeue()
+// queue.dequeue();
 
-console.log(queue.size); // 1
-console.log(queue.get_front()); // 20
+// console.log(queue.size); // 1
+// console.log(queue.get_front()); // 20
 
-// Test 6: enqueue() until capacity
-queue.enqueue(30);
-queue.enqueue(40);
+// // Test 6: enqueue() until capacity
+// queue.enqueue(30);
+// queue.enqueue(40);
 
-console.log(queue.size); // 3
+// console.log(queue.size); // 3
 
-// Test 7: enqueue() beyond capacity
-try {
-    queue.enqueue(50);
-} catch (error) {
-    console.log(error.message);
-    // Expected: capacity exceeded error
-}
+// // Test 7: enqueue() beyond capacity
+// try {
+//     queue.enqueue(50);
+// } catch (error) {
+//     console.log(error.message);
+//     // Expected: capacity exceeded error
+// }
 
-// Test 8: print()
-console.log(queue.print());
-// Expected: 20 30 40
-// (depending on your print() implementation)
+// // Test 8: print()
+// console.log(queue.print());
+// // Expected: 20 30 40
+// // (depending on your print() implementation)
 
-// Test 9: Symbol.iterator
-for (const elem of queue) {
-    console.log(elem);
-}
-// Expected:
-// 20
-// 30
-// 40
+// // Test 9: Symbol.iterator
+// for (const elem of queue) {
+//     console.log(elem);
+// }
+// // Expected:
+// // 20
+// // 30
+// // 40
 
-// Test 10: dequeue() until empty
-queue.dequeue();
-queue.dequeue();
-queue.dequeue();
+// // Test 10: dequeue() until empty
+// queue.dequeue();
+// queue.dequeue();
+// queue.dequeue();
 
-console.log(queue.size); // 0
-console.log(queue.isEmpty()); // true
+// console.log(queue.size); // 0
+// console.log(queue.isEmpty()); // true
 
-// Test 11: dequeue() from empty queue
-try {
-    queue.dequeue();
-} catch (error) {
-    console.log(error.message);
-    // Expected: empty queue error
-}
+// // Test 11: dequeue() from empty queue
+// try {
+//     queue.dequeue();
+// } catch (error) {
+//     console.log(error.message);
+//     // Expected: empty queue error
+// }
 
-// Test 12: get_front() on empty queue
-try {
-    queue.get_front();
-} catch (error) {
-    console.log(error.message);
-    // Expected: empty queue error
-}
+// // Test 12: get_front() on empty queue
+// try {
+//     queue.get_front();
+// } catch (error) {
+//     console.log(error.message);
+//     // Expected: empty queue error
+// }
 
-// Test 13: get_back() on empty queue
-try {
-    queue.get_back();
-} catch (error) {
-    console.log(error.message);
-    // Expected: empty queue error
-}
+// // Test 13: get_back() on empty queue
+// try {
+//     queue.get_back();
+// } catch (error) {
+//     console.log(error.message);
+//     // Expected: empty queue error
+// }
