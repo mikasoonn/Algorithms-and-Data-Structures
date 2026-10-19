@@ -41,7 +41,7 @@ class Stack {
 
     clear() {
         this.#size = 0;
-        this.top;
+        this.top = 0; 
     }
 
     [Symbol.iterator]() {
@@ -65,62 +65,63 @@ class Stack {
         }
     }
 }
+module.exports = { Stack };
 
 
-const stack = new Stack(3);
+// const stack = new Stack(3);
 
-// Test 1: isEmpty()
-console.log(stack.isEmpty()); // true
+// // Test 1: isEmpty()
+// console.log(stack.isEmpty()); // true
 
-// Test 2: push()
-stack.push(10);
-stack.push(20);
-console.log(stack.size);      // 2
-console.log(stack.isEmpty()); // false
+// // Test 2: push()
+// stack.push(10);
+// stack.push(20);
+// console.log(stack.size);      // 2
+// console.log(stack.isEmpty()); // false
 
-// Test 3: pop()
-stack.pop();
-console.log(stack.size); // 1
+// // Test 3: pop()
+// stack.pop();
+// console.log(stack.size); // 1
 
-// Test 4: push() up to capacity
-stack.push(30);
-stack.push(40);
-console.log(stack.size); // 3
+// // Test 4: push() up to capacity
+// stack.push(30);
+// stack.push(40);
+// console.log(stack.size); // 3
 
-// Test 5: push() beyond capacity
-try {
-    stack.push(50);
-} catch (error) {
-    console.log(error.message);
-    // Stack maximum size exceeded
-}
+// // Test 5: push() beyond capacity
+// try {
+//     stack.push(50);
+// } catch (error) {
+//     console.log(error.message);
+//     // Stack maximum size exceeded
+// }
 
-// Test 6: clear()
-stack.clear();
-console.log(stack.size);      // 0
-console.log(stack.isEmpty()); // true
+// // Test 6: clear()
+// stack.clear();
+// console.log(stack.size);      // 0
+// console.log(stack.isEmpty()); // true
 
-// Test 7: pop() on an empty stack
-try {
-    stack.pop();
-} catch (error) {
-    console.log(error.message);
-    // No elements to pop
-}
+// // Test 7: pop() on an empty stack
+// try {
+//     stack.pop();
+// } catch (error) {
+//     console.log(error.message);
+//     // No elements to pop
+// }
 
-// Test 8: Symbol.iterator
-stack.push(1);
-stack.push(2);
-stack.push(3);
+// // Test 8: Symbol.iterator
+// stack.push(1);
+// stack.push(2);
+// stack.push(3);
 
-for (const elem of stack) {
-    console.log(elem);
-}
+// for (const elem of stack) {
+//     console.log(elem);
+// }
 
-// Expected output:
-// 1
-// 2
-// 3
+// // Expected output:
+// // 1
+// // 2
+// // 3
 
 
 
