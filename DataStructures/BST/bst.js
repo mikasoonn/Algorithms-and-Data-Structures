@@ -90,25 +90,20 @@ getMin(node) {
     if(!node)return null;
     let cur = node;
     let min = cur.data;
-    while(cur){
-        if(cur.data < min){
-            min = cur.data;
-        }
+    while(cur.left){
+        
         cur = cur.left;
     }
-    return min;
+    return cur.data;
 }  
 getMax(node) {
     if(!node)return null;
     let cur = node;
     let max = cur.data;
-    while(cur){
-        if(cur.data > max){
-            max = cur.data;
-        }
+    while(cur.right){
         cur = cur.right;
     }
-    return max;
+    return cur.data;
 }
 
 insertRecursive(value) {
