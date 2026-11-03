@@ -314,11 +314,13 @@ class DList {
     [Symbol.iterator]() {
         return {
             current:this.head,
-            data: current.data,
             next(){
-                if(current){
+
+                if(this.current){
+                    const data = this.current.data;
+                    this.current = this.current.next;
                     return {
-                        data:this.data,
+                        data:data,
                         done: false,
                     }
                 }
