@@ -9,10 +9,10 @@ function quickSort(arr,first,last){
 }
 
 function partition(arr,first,last){
-    // let pivotIndex = findPivot(arr,first,last);
-    let pivotIndex = first;
-    let pivot = arr[pivotIndex];
+    let pivotIndex = findPivot(arr,first,last);
+    [arr[first],arr[pivotIndex]] = [arr[pivotIndex],arr[first]];
     // console.log(`${pivotIndex}: ${pivot}\n`);
+    let pivot = arr[first];
     let left = first;
     let right = last;
     while(left <= right){
@@ -28,18 +28,18 @@ function partition(arr,first,last){
             right--;
         }
     }
-    [arr[right],arr[pivotIndex]] = [arr[pivotIndex],arr[right]];
+    [arr[right],arr[first]] = [arr[first],arr[right]];
     return right;
 }
 
 function findPivot(arr,first,last){
-    let startIndex = arr[first];
-    let endIndex = arr[last];
+    let startVal = arr[first];
+    let endVal = arr[last];
     let mid = Math.floor((first+last)/2);
-    let midIndex = arr[mid];
-    if(startIndex >= endIndex && startIndex <= midIndex || startIndex <= endIndex && startIndex >= midIndex){
+    let midVal = arr[mid];
+    if(startVal >= endVal && startVal <= midVal || startVal <= endVal && startVal >= midVal){
         return first;
-    }else if(endIndex >= startIndex && endIndex <= midIndex || endIndex <= startIndex && endIndex >= midIndex){
+    }else if(endVal >= startVal && endVal <= midVal || endVal <= startVal && endVal >= midVal){
         return last;
     }else{
         return mid;
