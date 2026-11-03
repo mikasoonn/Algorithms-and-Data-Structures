@@ -242,11 +242,12 @@ class SList {
     [Symbol.iterator]() {
         return {
             current: this.head,
-            data: current.data,
             next(){
-                if(current){
+                if(this.current){
+                    const data = this.current.data;
+                    this.current = this.current.next;
                     return {
-                        value: this.data,
+                        value: data,
                         done: false,
                     }
                 }
