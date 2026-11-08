@@ -172,6 +172,7 @@ class AVL {
     this.levelorder(node.left,res,level+1);
     this.levelorder(node.right,res,level+1);
   }
+
   levelorderRecursive(){
     if(!this.root) return [];
     let result = [];
