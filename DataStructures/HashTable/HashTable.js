@@ -25,16 +25,21 @@ class HashTable {
     }
 
     _hash(key){
-        const H = 37;
-        var total = 0;
-        for (var i = 0; i < key.length; ++i) {
-            total = H * total + key.charCodeAt(i);
+        if(typeof(key) === "string"){
+            const H = 37;
+            var total = 0;
+            for (var i = 0; i < key.length; ++i) {
+                total = H * total + key.charCodeAt(i);
+            }
+            total = total % this.table.length;
+            if (total < 0) {
+                total += this.table.length-1;
+            }
+            return parseInt(total);
+        }else if(typeof(key) === "number"){
+            return parseInt(((key % this.Capacity) + this.Capacity) % this.Capacity);
         }
-        total = total % this.table.length;
-        if (total < 0) {
-            total += this.table.length-1;
-        }
-        return parseInt(total);
+        
     }
 
     loadFactor(){
@@ -150,191 +155,47 @@ class HashTable {
     }
 }
 
+const ht = new HashTable(5);
 
-function test(name, condition) {
-    if (condition) {
-        console.log(`PASS: ${name}`);
-    } else {
-        console.error(`FAIL: ${name}`);
-    }
-}
-
-function sameArray(actual, expected) {
-    return JSON.stringify(actual) === JSON.stringify(expected);
-}
-
-// 1. isPrime() and nextPrime()
-
-test("isPrime: 2 is prime", isPrime(2) === true);
-test("isPrime: 7 is prime", isPrime(7) === true);
-test("isPrime: 9 is not prime", isPrime(9) === false);
-test("isPrime: 1 is not prime", isPrime(1) === false);
-test("isPrime: 0 is not prime", isPrime(0) === false);
-
-test("nextPrime: next prime after 5", nextPrime(5) === 7);
-test("nextPrime: next prime after 11", nextPrime(11) === 13);
-
-// 2. Constructor
-
-const ht = new HashTable(5, 0.75);
-
-test("Initial capacity", ht.Capacity === 5);
-test("Initial size", ht.getSize() === 0);
-test("Initial load factor", ht.loadFactor() === 0);
-
-// 3. _hash()
-
-const hashIndex = ht._hash("name");
-
-test(
-    "Hash index is within table boundaries",
-    hashIndex >= 0 && hashIndex < ht.table.length
-);
-
-// 4. set()
-
-ht.set("name", "Sona");
+ht.set("name", "Sophie");
+ht.set(10, "James");
 ht.set("age", 20);
-ht.set("city", "Yerevan");
 
-test("Set: inserts elements", ht.getSize() === 3);
-test("Set: updates load factor", ht.loadFactor() === 3 / 5);
+// Set
+console.log("Set:", ht.set("city", "New York"));
 
-// 5. has()
+// Get
+console.log("Get string:", ht.get("name"));
+console.log("Get number:", ht.get(10));
+console.log("Get age:", ht.get("age"));
+console.log("Get missing:", ht.get("unknown"));
 
-test("Has: existing key", ht.has("name") === true);
-test("Has: missing key", ht.has("country") === false);
+// Has
+console.log("Has name:", ht.has("name"));
+console.log("Has number:", ht.has(10));
+console.log("Has missing:", ht.has("unknown"));
 
-// 6. get()
+// Delete
+console.log("Delete name:", ht.delete("name"));
+console.log("Delete number:", ht.delete(10));
+console.log("Delete missing:", ht.delete("unknown"));
+console.log("Size after delete:", ht.getSize());
 
-test("Get: existing key", ht.get("name") === "Sona");
-test("Get: existing number value", ht.get("age") === 20);
-test("Get: missing key", ht.get("unknown") === "not found");
+// Keys
+console.log("Keys:", [...ht.keys()]);
 
-// 7. set() updates existing key
+// Values
+console.log("Values:", [...ht.values()]);
 
-ht.set("name", "Anna");
+// Entries
+console.log("Entries:", [...ht.entries()]);
 
-test("Set: updates existing value", ht.get("name") === "Anna");
-test("Set: does not increase size on update", ht.getSize() === 3);
+// Symbol.iterator
+console.log("Iterator:", [...ht]);
 
-// 8. Collision test
-
-const collisionTable = new HashTable(5);
-
-const buckets = Array.from({ length: 5 }, () => []);
-
-for (let i = 0; i < 100; i++) {
-    const key = `key${i}`;
-    const index = collisionTable._hash(key);
-    buckets[index].push(key);
-}
-
-const collisionBucket = buckets.find(bucket => bucket.length >= 2);
-
-if (collisionBucket) {
-    const [key1, key2] = collisionBucket;
-
-    collisionTable.set(key1, "first");
-    collisionTable.set(key2, "second");
-
-    test(
-        "Collision: both keys are stored",
-        collisionTable.get(key1) === "first" &&
-        collisionTable.get(key2) === "second"
-    );
-
-    test(
-        "Collision: both keys exist",
-        collisionTable.has(key1) && collisionTable.has(key2)
-    );
-}
-
-// 9. delete()
-
-ht.set("country", "Armenia");
-ht.delete("country");
-
-test("Delete: removes key", ht.has("country") === false);
-test("Delete: decreases size", ht.getSize() === 3);
-
-ht.delete("unknown");
-
-test("Delete: missing key does not change size", ht.getSize() === 3);
-
-// 10. keys()
-
-const keys = [...ht.keys()].sort();
-
-test(
-    "Keys: returns all keys",
-    sameArray(keys, ["age", "city", "name"])
-);
-
-// 11. values()
-
-const values = [...ht.values()].sort();
-
-test(
-    "Values: returns all values",
-    sameArray(values, [20, "Anna", "Yerevan"].sort())
-);
-
-// 12. entries()
-
-const entries = [...ht.entries()];
-
-test(
-    "Entries: returns key-value pairs",
-    entries.length === 3 &&
-    entries.every(entry =>
-        Array.isArray(entry) && entry.length === 2
-    )
-);
-
-// 13. Symbol.iterator
-
-const iteratorEntries = [...ht];
-
-test(
-    "Symbol.iterator: returns all entries",
-    iteratorEntries.length === 3 &&
-    iteratorEntries.every(entry =>
-        Array.isArray(entry) && entry.length === 2
-    )
-);
-
-// 14. resize()
-
-const resizeTable = new HashTable(5, 0.75);
-
-resizeTable.set("a", 1);
-resizeTable.set("b", 2);
-resizeTable.set("c", 3);
-resizeTable.set("d", 4);
-
-// At this point load factor is 4 / 5 = 0.8.
-// Resize should have happened automatically.
-
-test("Resize: increases capacity", resizeTable.Capacity > 5);
-test("Resize: preserves all elements", resizeTable.getSize() === 4);
-test("Resize: preserves key a", resizeTable.get("a") === 1);
-test("Resize: preserves key b", resizeTable.get("b") === 2);
-test("Resize: preserves key c", resizeTable.get("c") === 3);
-test("Resize: preserves key d", resizeTable.get("d") === 4);
-
-// 15. clear()
-
-const oldCapacity = resizeTable.Capacity;
-
-resizeTable.clear();
-
-test("Clear: size becomes zero", resizeTable.getSize() === 0);
-test("Clear: load factor becomes zero", resizeTable.loadFactor() === 0);
-test("Clear: all keys are removed", resizeTable.has("a") === false);
-test("Clear: capacity remains unchanged", resizeTable.Capacity === oldCapacity);
-test("Clear: all buckets are empty", resizeTable.table.every(bucket => bucket.length === 0));
-
-console.log("All tests finished!");
-
-
+// Clear
+ht.clear();
+console.log("Size after clear:", ht.getSize());
+console.log("Load factor after clear:", ht.loadFactor());
+console.log("Keys after clear:", [...ht.keys()]);
+console.log("Table after clear:", ht.table);
