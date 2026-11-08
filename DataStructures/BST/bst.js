@@ -144,7 +144,7 @@ postOrderIterative() {
         let cur = stack1.pop();
         stack2.push(cur);
         if(cur.left) stack1.push(cur.left);
-        if(cur.right) stack2.push(cur.right);
+        if(cur.right) stack1.push(cur.right);
     }
     while(stack2.size){
         result.push(stack2.pop().data);
@@ -275,17 +275,17 @@ const bst = new BST();
     bst.insertRecursive(value);
 });
 
-console.log(bst.inOrderRecursive());
-// [5, 10, 12, 15, 17, 20, 25]
+// console.log(bst.inOrderRecursive());
+// // [5, 10, 12, 15, 17, 20, 25]
 
-console.log(bst.preOrderRecursive());
+// console.log(bst.preOrderRecursive());
 // [15, 10, 5, 12, 20, 17, 25]
 
-console.log(bst.postOrderRecursive());
-// [5, 12, 10, 17, 25, 20, 15]
-bst.insert(45);
-console.log("added");
-console.log(bst.postOrderRecursive());
+// console.log(bst.postOrderRecursive());
+// 
+// bst.insert(45);
+// console.log("added");
+// console.log(bst.postOrderRecursive());
 
 
 // console.log(bst.preOrderRecursive());
